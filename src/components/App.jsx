@@ -10,7 +10,7 @@ import {
   useAddContactMutation,
   useDeleteContactMutation,
 } from 'redux/contacts';
-/* import toast, { Toaster } from 'react-hot-toast'; */
+import toast, { Toaster } from 'react-hot-toast';
 
 export const App = () => {
   const dispatch = useDispatch();
