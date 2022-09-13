@@ -1,78 +1,98 @@
-import React from 'react';
-import { ContactForm } from './ContactForm/ContactForm';
-import { ContactList } from './ContactList/ContactList';
-import { ContactFilter } from './ContactFilter/ContactFilter';
-import { Container, TitlePhoneBook, TitleContacts,TitleError, Spinner } from './AppStyled';
-import { useSelector, useDispatch } from 'react-redux';
-import { filterContacts } from '../redux/filter';
-import {
-  useGetAllContactsQuery,
-  useAddContactMutation,
-  useDeleteContactMutation,
-} from 'redux/contacts';
-import toast, { Toaster } from 'react-hot-toast';
+import { useState, useEffect, lazy, Suspense } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Toaster } from 'react-hot-toast';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { dark, light } from '../theme';
+import { PublicRoute } from './PublicRoute';
+import { PrivateRoute } from './PrivateRoute';
+import authOperations from '../api/authification';
+
+const Navigation = lazy(() => import('./Navigation/Navigation'));
+const StartPage = lazy(() => import('../pages/StartPage'));
+const RegisterPage = lazy(() => import('../pages/RegisterPage'));
+const LoginPage = lazy(() => import('../pages/LoginPage'));
+const ContactsPage = lazy(() => import('../pages/ContactsPage'));
+const NotFoundPage = lazy(() => import('../pages/NotFoundPage'));
 
 export const App = () => {
   const dispatch = useDispatch();
-  const filterContact = useSelector(state => state.filter.value);
 
-  const { data: contacts, error, isFetching } = useGetAllContactsQuery();
-  const [createContact, isSuccess] = useAddContactMutation();
-  const [deleteContact] = useDeleteContactMutation();
+  const loggedIn = useSelector(state => state.authification.isLoggedIn);
+  const isFetchingUser = useSelector(
+    state => state.authification.isFetchingUser
+  );
 
-  const showContacts = contacts && !isFetching;
-  const errorMessage = 'Sorry , no data found.';
+  useEffect(() => {
+    dispatch(authOperations.getUserInformation());
+  }, [dispatch]);
 
-  const contactAntiDuplicator = name => {
-    const normalizedName = name.toLowerCase();
-    return contacts.some(
-      contactName => normalizedName === contactName.name.toLowerCase()
-    );
+  
+  const [isDarkTheme, setIsDarkTheme] = useState(
+    JSON.parse(window.localStorage.getItem('darkTheme')) ?? false
+  );
+
+  useEffect(() => {
+    window.localStorage.setItem('darkTheme', JSON.stringify(isDarkTheme));
+  }, [isDarkTheme]);
+
+  const handleChangeTheme = () => {
+    setIsDarkTheme(!isDarkTheme);
   };
 
-  const addContact = ({ name, number }) => {
-    if (contactAntiDuplicator(name)) {
-      toast.error(`${name} is already in contacts`);
-      return;
-    } else {
-      createContact({ name, number });
-      if (isSuccess) {
-        toast.success(`${name} successfully adding in the phonebook`);
-      }
-    }
+ 
+  const handleLogout = () => {
+    dispatch(authOperations.logoutUser());
   };
-
-  const onFilter = e => {
-    dispatch(filterContacts(e.currentTarget.value));
-  };
-
-  let visibleContacts = [];
-  const normalizedFilter = filterContact.toLowerCase();
-  if (showContacts) {
-    visibleContacts = contacts.filter(data =>
-      data.name.toLowerCase().includes(normalizedFilter)
-    );
-  }
 
   return (
-    <Container>
-      <TitlePhoneBook>Phonebook</TitlePhoneBook>
-      <ContactForm onSubmit={addContact} contacts={contacts} />
-      <TitleContacts>Contacts</TitleContacts>
-      <ContactFilter filterValue={filterContact} onChange={onFilter} />
-      {isFetching && (
-        <Spinner
-          size={80}
-          thickness={180}
-          color="rgba(57, 172, 171, 1)"
-          secondaryColor="rgba(172, 57, 65, 0.45)"
+    <ThemeProvider theme={isDarkTheme ? createTheme(dark) : createTheme(light)}>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Navigation
+          isDark={isDarkTheme}
+          changeTheme={handleChangeTheme}
+          loggedIn={loggedIn}
+          handleLogout={handleLogout}
         />
-      )}
-      {showContacts && (
-        <ContactList contacts={visibleContacts} onDelete={deleteContact} />
-      )}
-      {error && <TitleError>{errorMessage}</TitleError>}
+        {!isFetchingUser && (
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <PublicRoute>
+                  <StartPage />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/contacts"
+              element={
+                <PrivateRoute>
+                  <ContactsPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <PublicRoute restricted>
+                  <LoginPage />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <PublicRoute restricted>
+                  <RegisterPage />
+                </PublicRoute>
+              }
+            />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        )}
+      </Suspense>
       <Toaster position="top-right" reverseOrder={false} />
-    </Container>
+    </ThemeProvider>
   );
 };
