@@ -36,7 +36,7 @@ const ContactsPage = () => {
   return (
     <Box
       sx={{
-        width: '100%',
+        
         bgcolor: 'background.main',
         color: 'text.primary',
         p: 3,

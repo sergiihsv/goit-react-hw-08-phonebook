@@ -23,7 +23,7 @@ const RegisterPage = () => {
     setPassword('');
   };
 
-  //Схема валидации
+  
   const schema = yup.object().shape({
     name: yup.string().required(),
     email: yup.string().email().required(),
@@ -35,7 +35,7 @@ const RegisterPage = () => {
       component="form"
       color="inherit"
       sx={{
-        width: '100%',
+       
         bgcolor: 'background.main',
         color: 'text.primary',
         p: 3,

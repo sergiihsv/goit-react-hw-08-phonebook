@@ -33,7 +33,7 @@ const loginUser = createAsyncThunk(
     try {
       const { data } = await axios.post('/users/login', userData);
       token.set(data.token);
-      toast.success(`Welcome to the My Contacts application`);
+      toast.success(`Welcome to the Phonebook`);
       return data;
     } catch (error) {
       toast.error(`The log in procedure was failture`);

@@ -22,7 +22,7 @@ const LoginPage = () => {
     event.currentTarget.reset();
   };
 
-  //Схема валидации
+
   const schema = yup.object().shape({
     name: yup.string().required(),
     password: yup.string().required(),
@@ -32,7 +32,7 @@ const LoginPage = () => {
     <Box
       component="form"
       sx={{
-        width: '100%',
+        
         bgcolor: 'background.main',
         color: 'text.primary',
         p: 3,

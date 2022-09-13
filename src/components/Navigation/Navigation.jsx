@@ -33,7 +33,7 @@ const Navigation = ({
               underline="none"
               sx={{ flexGrow: 1 }}
             >
-              My contacts
+              Phonebook
             </Link>
 
             {loggedIn ? (

@@ -49,8 +49,9 @@ export const ContactsPageItems = ({ data }) => {
         <List>
           {data.map(contactItem => (
             <ListItem disablePadding sx={{ m: 1 }} onFocus={()=>setCurrentContact(contactItem)} key={contactItem.id}>
-              <ListItemText
-                primary={`${contactItem.name} - ${contactItem.number}`}
+              <ListItemText 
+                
+                primary={`${contactItem.name} : ${contactItem.number}`}
               />
               <Button
                 variant="contained"

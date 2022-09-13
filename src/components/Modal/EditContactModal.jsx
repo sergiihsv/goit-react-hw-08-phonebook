@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import { Overlay, Modal } from './ModalStyled';
 import { phoneBookApi } from '../../redux/phoneBookRTK';
 
-//Делаем портал для рендера модалки
+
 const modalRoot = document.querySelector('#modal-root');
 
 const EditContactModal = ({ currentContact, onClose }) => {
@@ -21,7 +21,7 @@ const EditContactModal = ({ currentContact, onClose }) => {
     }
   };
 
-  //Вешаем/снимаем слушатель событий при нажатии клавиши Escape
+  
   useEffect(() => {
     window.addEventListener('keydown', handleEsc);
     return () => {

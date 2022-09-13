@@ -12,7 +12,12 @@ export const UserMenu = ({userName,handleLogout}) => {
       >
         Hello, {userName}
       </Typography>
-      <Button color="inherit" onClick={handleLogout}>
+      <Button color="inherit" onClick={handleLogout}
+       sx={{
+            
+            
+            color: 'text.primary',
+          }}>
         Logout
       </Button>
     </>

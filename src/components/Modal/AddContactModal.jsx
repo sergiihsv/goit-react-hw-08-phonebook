@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import { Overlay, Modal } from './ModalStyled';
 import { phoneBookApi } from '../../redux/phoneBookRTK';
 
-//Делаем портал для рендера модалки
+
 const modalRoot = document.querySelector('#modal-root');
 
 const AddContactModal = ({ onClose }) => {
@@ -15,7 +15,6 @@ const AddContactModal = ({ onClose }) => {
 
   const [createContact] = phoneBookApi.useAddContactMutation();
 
-  //Вешаем/снимаем слушатель событий при нажатии клавиши Escape
   const handleEsc = event => {
     if (event.code === 'Escape') {
       onClose();
@@ -35,7 +34,7 @@ const AddContactModal = ({ onClose }) => {
     }
   };
 
-  //При сабмите формы отправляем новый контакт на бек
+  
   const handleSubmit = event => {
     event.preventDefault();
     createContact({ name, number });
