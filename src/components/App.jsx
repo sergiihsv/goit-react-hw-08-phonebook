@@ -6,7 +6,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { dark, light } from '../style/theme';
 import { PublicRoute } from './PublicRoute';
 import { PrivateRoute } from './PrivateRoute';
-import authOperations from '../api/authification';
+import authOperations from '../redux/auth/authification';
 
 const Navigation = lazy(() => import('./Navigation/Navigation'));
 const StartPage = lazy(() => import('../pages/StartPage'));

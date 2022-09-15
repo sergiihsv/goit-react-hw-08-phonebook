@@ -9,7 +9,7 @@ import Divider from '@mui/material/Divider';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditContactModal from '../components/Modal/EditContactModal';
-import {phoneBookApi} from '../redux/phoneBookRTK';
+import {phoneBookApi} from '../redux/api/phoneBookRTK';
 
 export const ContactsPageItems = ({ data }) => {
   const [showEditModal, setShowEditModal] = useState(false);

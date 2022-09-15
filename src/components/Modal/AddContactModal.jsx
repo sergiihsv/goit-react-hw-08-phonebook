@@ -4,8 +4,10 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { Overlay, Modal } from './ModalStyled';
-import { phoneBookApi } from '../../redux/phoneBookRTK';
-import { toast } from 'react-toastify';
+import { phoneBookApi } from '../../redux/api/phoneBookRTK';
+import toast from 'react-hot-toast';
+
+
 
 const modalRoot = document.querySelector('#modal-root');
 
@@ -35,22 +37,16 @@ const AddContactModal = ({ onClose }) => {
     }
   };
 
-  /* const handleSubmit = event => {
-    event.preventDefault();
-    createContact({ name, number });
-    setName('');
-    setNumber('');
-    onClose();
-  };
- */
+
  
   const handleSubmit = (event) => {
     event.preventDefault();
     const nameInContacts = contacts.find(
       contact => contact.name.toLowerCase() === name.toLowerCase()
     );
+    
     if (nameInContacts) {
-      toast.warn(`${name} is already in contacts`);
+      toast.error(`${name} is already in contacts`);
     
       return;
     }

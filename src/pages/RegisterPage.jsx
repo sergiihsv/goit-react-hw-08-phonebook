@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import authOperations from '../api/authification';
+import authOperations from '../redux/auth/authification';
 
 const RegisterPage = () => {
   const registrationMessage = `Please, fill out the registration form to use the application.`;
@@ -21,6 +21,7 @@ const RegisterPage = () => {
     setName('');
     setEmail('');
     setPassword('');
+
   };
 
   

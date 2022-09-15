@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { Overlay, Modal } from './ModalStyled';
-import { phoneBookApi } from '../../redux/phoneBookRTK';
+import { phoneBookApi } from '../../redux/api/phoneBookRTK';
 
 
 const modalRoot = document.querySelector('#modal-root');

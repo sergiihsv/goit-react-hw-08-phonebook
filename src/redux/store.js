@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { filterSlice } from './filter';
-import { authSlice, persistedToken } from './authSlice';
+import { filterSlice } from './filter/filter';
+import { authSlice, persistedToken } from './auth/authSlice';
 import {
   persistStore,
   FLUSH,
@@ -10,7 +10,7 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-import { phoneBookApi } from './phoneBookRTK';
+import { phoneBookApi } from './api/phoneBookRTK';
 
 export const store = configureStore({
   reducer: {

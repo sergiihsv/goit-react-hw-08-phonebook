@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import authOperations from '../api/authification';
+import authOperations from '../redux/auth/authification';
 
 const LoginPage = () => {
   const loginMessage = `Please, enter the login information to use the application.`;

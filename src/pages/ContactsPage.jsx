@@ -7,8 +7,8 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { ContactsPageItems } from '../components/ContactsPageItem';
 import AddContactModal from '../components/Modal/AddContactModal';
 import { FilterSection } from '../components/Filter/FilterSection';
-import { filterContacts } from '../redux/filter';
-import {phoneBookApi} from '../redux/phoneBookRTK';
+import { filterContacts } from '../redux/filter/filter';
+import {phoneBookApi} from '../redux/api/phoneBookRTK';
 
 const ContactsPage = () => {
   const dispatch = useDispatch();
