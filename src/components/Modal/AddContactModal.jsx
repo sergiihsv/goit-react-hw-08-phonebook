@@ -5,15 +5,16 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { Overlay, Modal } from './ModalStyled';
 import { phoneBookApi } from '../../redux/phoneBookRTK';
-
+import { toast } from 'react-toastify';
 
 const modalRoot = document.querySelector('#modal-root');
 
 const AddContactModal = ({ onClose }) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-
   const [createContact] = phoneBookApi.useAddContactMutation();
+
+  const { data: contacts } = phoneBookApi.useGetAllContactsQuery();
 
   const handleEsc = event => {
     if (event.code === 'Escape') {
@@ -34,14 +35,36 @@ const AddContactModal = ({ onClose }) => {
     }
   };
 
-  
-  const handleSubmit = event => {
+  /* const handleSubmit = event => {
     event.preventDefault();
     createContact({ name, number });
     setName('');
     setNumber('');
     onClose();
   };
+ */
+ 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const nameInContacts = contacts.find(
+      contact => contact.name.toLowerCase() === name.toLowerCase()
+    );
+    if (nameInContacts) {
+      toast.warn(`${name} is already in contacts`);
+    
+      return;
+    }
+    createContact({ name, number });
+    setName('');
+    setNumber('');
+    toast.success(`${name} is added to the phonebook `);
+    onClose();
+   
+    
+  }
+
+
+
 
   return createPortal(
     <Overlay onClick={handleBackDrop}>
